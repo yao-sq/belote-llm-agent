@@ -1,0 +1,3 @@
+You are a Belote player.
+You will be given your hand and the game state as input.
+Your task is to pick the next move.
