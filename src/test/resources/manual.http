@@ -1,0 +1,36 @@
+###
+POST http://localhost:8000/play
+Accept: application/json
+Content-Type: application/json
+
+{
+  "bids": {
+    "SOUTH": ["PASS"],
+    "WEST": ["ALL_TRUMP"],
+    "NORTH": ["PASS"],
+    "EAST": ["PASS"]
+  },
+  "combination_claims": {
+    "SOUTH": [],
+    "WEST": [],
+    "NORTH": [],
+    "EAST": []
+  },
+  "trick": {
+    "WEST": null,
+    "NORTH": "♦K",
+    "EAST": "♦9"
+  },
+  "hand": [
+    "♧Q", "♧A"
+  ],
+  "trick_initiator": "EAST",
+  "trick_asking_suit": "Clubs",
+  "trick_winning_card": "♧J",
+  "possible_actions": [
+    "♤9", "♤10", "♤A"
+  ]
+}
+
+###
+# Expecting: {"option": 0}
