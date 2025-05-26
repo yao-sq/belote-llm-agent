@@ -2,13 +2,15 @@ import json
 import logging
 import re
 
-from llm.openai_client import client as llm
+import openai
+import pydantic
+from pydantic import Field
+
+from llm.openai_client import call as llm_call
 
 
 logger = logging.getLogger(__name__)
 
-
-default_model = "gpt-4o"
 
 with open('src/main/resources/instructions.txt', 'r') as f:
     game_instructions = f.read()
@@ -16,19 +18,19 @@ with open('src/main/resources/instructions.txt', 'r') as f:
 
 pattern_result = re.compile(r"`\[Option (\d+)] Action:")
 
+class LlmPlayResponse(pydantic.BaseModel):
+    explanation: str = Field(description="The thoughts and reasoning of why you chose the specific option, along with a detailed explanations and deliberations of all the other options.")
+    option: int = Field(description="The index of the option you chose")
+
 async def play(game_state) -> int:
     logger.info("Playing belote...")
 
-    response = await llm.responses.create(
-        model=default_model,
+    response = await llm_call(
         instructions=game_instructions,
-        input=json.dumps(game_state)
+        input=json.dumps(game_state),
+        response_type=LlmPlayResponse
     )
 
-    logger.debug("Got LLM response: %s", response)
-
-    match = pattern_result.search(response.output_text)
-    if match:
-        return int(match.group(1))
-    else:
-        return -1
+    logger.info("Playing option %s", response.option)
+    logger.debug("Play reasoning: %s", response.explanation)
+    return response.option

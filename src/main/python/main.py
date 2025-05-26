@@ -8,6 +8,7 @@ from starlette.responses import RedirectResponse
 
 app = FastAPI()
 
+
 load_dotenv(".private.env")
 
 logging.basicConfig(level='INFO')
@@ -26,3 +27,10 @@ async def play(request: Request):
     game_state = await request.json()
     result = await play_belote(game_state)
     return {"option": result}
+
+
+
+import uvicorn
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0")
