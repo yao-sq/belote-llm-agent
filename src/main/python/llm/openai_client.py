@@ -19,15 +19,13 @@ async def call(
             instructions=instructions,
             input=input
         )
-
-        logger.debug("Got LLM response: %s", response)
-        return response;
-
-    response = await llm.responses.parse(
-        model=default_model,
-        instructions=instructions,
-        input=input,
-        text_format=response_type)
+    else:
+        response = await llm.responses.parse(
+            model=default_model,
+            instructions=instructions,
+            input=input,
+            text_format=response_type)
+        response = response.output_parsed
 
     logger.debug("Got LLM response: %s", response)
-    return response.output_parsed
+    return response
