@@ -12,7 +12,7 @@ app = FastAPI()
 load_dotenv(".private.env")
 
 logging.basicConfig(level='INFO')
-logging.getLogger(__name__).setLevel(os.getenv('LOGGING_LEVEL', 'INFO'))
+logging.getLogger(__name__ if __name__ != "__main__" else "").setLevel(os.getenv('LOGGING_LEVEL', 'INFO'))
 
 
 @app.get("/")
