@@ -1,11 +1,12 @@
 import json
 import logging
+import re
 
 import pydantic
 from pydantic import Field
 
 # from llm.openai_client import call as llm_call
-from app.llm.gemini_client import call as llm_call
+from llm.gemini_client import call as llm_call
 
 
 logger = logging.getLogger(__name__)
